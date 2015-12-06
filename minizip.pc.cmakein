@@ -1,0 +1,12 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=@INSTALL_BIN_DIR@
+libdir=@INSTALL_LIB_DIR@
+includedir=@INSTALL_INC_DIR@
+
+Name: minizip
+Description: Minizip zip file manipulation library
+Requires:
+Version: @VERSION_STRING@
+Libs: -L${libdir} -lminizip
+Libs.private: -lz
+Cflags: -I${includedir}
