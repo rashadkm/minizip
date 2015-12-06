@@ -17,8 +17,6 @@ option(BUILD_SHARED_LIBS  "Build shared libs." ON)
 option(BUILD_TESTS "Build demos." ON)
 option(BUILD_DEMOS  "Build demos." ON)
 
-find_package(ZLIB REQUIRED)
-
 include (CheckIncludeFile)
 
 check_include_file("unistd.h" HAVE_UNISTD_H)
@@ -32,6 +30,25 @@ check_include_file("stdlib.h" HAVE_STDLIB_H)
 check_include_file("inttypes.h" HAVE_INTTYPES_H)
 check_include_file("strings.h" HAVE_STRINGS_H)
 check_include_file("string.h" HAVE_STRING_H)
+
+
+# set path to additional CMake modules
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
+
+include(ExternalProject)
+set(ep_base "${CMAKE_BINARY_DIR}/third-party")
+set_property(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
+
+set(EP_URL "https://github.com/rashadkm")
+find_package(Git)
+
+include(External)
+
+external_project(ZLIB lib_z)
+
+#The above macro calls find_package(ZLIB) and if not found build it download and build it for you!
+#find_package(ZLIB)
+
 
 if (HAVE_CTYPE_H AND HAVE_STDLIB_H)
     set(STDC_HEADERS 1)
@@ -56,7 +73,15 @@ if(WIN32)
   list(APPEND MINIZIP_INCS iowin32.h)
 endif()
 
+#zlib-devel
+#gdk-pixbuf2-devel
+#openssl-devel    
+
 add_library(minizip ${MINIZIP_SRCS})
+add_dependencies(minizip ZLIB)
+
+include_directories(${ZLIB_INCLUDE_DIRS})
+
 target_link_libraries(minizip ${ZLIB_LIBRARIES})
 set_target_properties(minizip PROPERTIES SOVERSION ${VERSION_STRING})
 
