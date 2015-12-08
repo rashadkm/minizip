@@ -1,0 +1,20 @@
+# Compute paths
+get_filename_component(MINIZIP_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(MINIZIP_INCLUDE_DIR "@CONF_INCLUDE_DIRS@" PARENT_SCOPE)
+ 
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET foo AND NOT MINIZIP_BINARY_DIR)
+  include("${MINIZIP_CMAKE_DIR}/MiniZipTargets.cmake")
+endif()
+
+# set(LIB_NAMES_ @LIB_NAMES@)
+# set(MINIZIP_LIBRARY)
+# foreach(LIB_NAME ${LIB_NAMES_}) 
+# get_target_property(LIB_LIB_FILENAME ${LIB_NAME} IMPORTED_LOCATION_NOCONFIG)
+# set(MINIZIP ${LIB_LIB_FILENAME}  PARENT_SCOPE)
+# endforeach()
+
+get_target_property(LIB_LIB_FILENAME @LIB_NAME@ IMPORTED_LOCATION_NOCONFIG)
+
+set(MINIZIP ${LIB_LIB_FILENAME}  PARENT_SCOPE)
+set(MINIZIP_FOUND TRUE)

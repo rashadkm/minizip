@@ -111,8 +111,26 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/minizip.pc
   DESTINATION
   "${INSTALL_PKGCONFIG_DIR}")
 
+set(MINIZIP_VERSION ${VERSION_STRING})
+
+if(WIN32 AND NOT CYGWIN)
+  set(DEF_INSTALL_CMAKE_DIR CMake)
+else()
+  set(DEF_INSTALL_CMAKE_DIR lib/CMake/ZLIB)
+endif()
+set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
+  "Installation directory for CMake files")
+ 
+# Make relative paths absolute (needed later on)
+foreach(p LIB BIN INCLUDE CMAKE)
+  set(var INSTALL_${p}_DIR)
+  if(NOT IS_ABSOLUTE "${${var}}")
+    set(${var} "${CMAKE_INSTALL_PREFIX}/${${var}}")
+  endif()
+endforeach()
+
 install(TARGETS minizip
-  EXPORTS MiniZipTargets
+  EXPORT MiniZipTargets
   RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
   ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
   LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
@@ -133,15 +151,15 @@ file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
 
 # ... for the build tree
 set(CONF_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}")
-configure_file(MiniZipConfig.cmake.in
+configure_file(cmake/MiniZipConfig.cmake.in
   "${PROJECT_BINARY_DIR}/MiniZipConfig.cmake" @ONLY)
 
 # ... for the install tree
 set(CONF_INCLUDE_DIRS "\${ZLIB_CMAKE_DIR}/${REL_INCLUDE_DIR}")
-configure_file(MiniZipConfig.cmake.in
+configure_file(cmake/MiniZipConfig.cmake.in
   "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/MiniZipConfig.cmake" @ONLY)
 # ... for both
-configure_file(MiniZipConfigVersion.cmake.in
+configure_file(cmake/MiniZipConfigVersion.cmake.in
   "${CMAKE_BINARY_DIR}/MiniZipConfigVersion.cmake" @ONLY)
  
 install(FILES
