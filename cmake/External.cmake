@@ -1,12 +1,10 @@
 function(external_project name)
   set(PKG_NAME ${name})
-  string(TOLOWER ${PKG_NAME} PKG_NAME_)
+  set(PKG_REPO ${PKG_NAME})
   set (extra_args ${ARGN})
   list(LENGTH extra_args num_extra_args)
   if (${num_extra_args} GREATER 0)
     list(GET extra_args 0 PKG_REPO)
-  else()
-    set(PKG_REPO ${PKG_NAME_})
   endif ()
 
   if(EXISTS ${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)
