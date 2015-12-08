@@ -73,6 +73,8 @@ if(WIN32)
   list(APPEND MINIZIP_INCS iowin32.h)
 endif()
 
+set(LIB_NAME minizip)
+
 add_library(minizip ${MINIZIP_SRCS})
 add_dependencies(minizip ZLIB)
 
@@ -109,17 +111,43 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/minizip.pc
   DESTINATION
   "${INSTALL_PKGCONFIG_DIR}")
 
-install(TARGETS minizip 
+install(TARGETS minizip
+  EXPORTS MiniZipTargets
   RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
   ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
   LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
 
 install(FILES ${MINIZIP_INCS} DESTINATION "${INSTALL_INC_DIR}")
 
-export(TARGETS minizip
-  FILE "${CMAKE_BINARY_DIR}/minizipTargets.cmake")
-
-
 if(BUILD_TESTS)
   enable_testing()
 endif()
+
+
+export(TARGETS minizip
+  FILE "${CMAKE_BINARY_DIR}/MiniZipTargets.cmake")
+
+# Create the ZLIBConfig.cmake and ZLIBConfigVersion files
+file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
+  "${INSTALL_INC_DIR}")
+
+# ... for the build tree
+set(CONF_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}")
+configure_file(MiniZipConfig.cmake.in
+  "${PROJECT_BINARY_DIR}/MiniZipConfig.cmake" @ONLY)
+
+# ... for the install tree
+set(CONF_INCLUDE_DIRS "\${ZLIB_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+configure_file(MiniZipConfig.cmake.in
+  "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/MiniZipConfig.cmake" @ONLY)
+# ... for both
+configure_file(MiniZipConfigVersion.cmake.in
+  "${CMAKE_BINARY_DIR}/MiniZipConfigVersion.cmake" @ONLY)
+ 
+install(FILES
+  "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/MiniZipConfig.cmake"
+  "${CMAKE_BINARY_DIR}/MiniZipConfigVersion.cmake"
+  DESTINATION "${INSTALL_CMAKE_DIR}" )
+ 
+# Install the export set for use with the install-tree
+install(EXPORT MiniZipTargets DESTINATION "${INSTALL_CMAKE_DIR}")
