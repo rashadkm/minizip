@@ -40,18 +40,9 @@ function(external_project name)
       "-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR}"
       WORKING_DIRECTORY ${ep_base}/Build/${PKG_NAME} )
     
-    #TODO: update lib_z repo
     include(${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)
-    
-    get_target_property(${PKG_NAME}_LIBRARY ${PKG_NAME_} IMPORTED_LOCATION_NOCONFIG)
-    
-    set(${PKG_NAME}_INCLUDE_DIRS ${${PKG_NAME}_INSTALL_DIR}/include PARENT_SCOPE)
-    set(${PKG_NAME}_LIBRARIES ${${PKG_NAME}_LIBRARY} PARENT_SCOPE)
-    
-  else()
-    set(${PKG_NAME}_INCLUDE_DIRS ${${PKG_NAME}_INCLUDE_DIR} PARENT_SCOPE)
-    set(${PKG_NAME}_LIBRARIES ${${PKG_NAME}_LIBRARY} PARENT_SCOPE)
+
   endif()
-  
+
 endfunction()
 

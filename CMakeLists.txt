@@ -76,7 +76,7 @@ endif()
 add_library(minizip ${MINIZIP_SRCS})
 add_dependencies(minizip ZLIB)
 
-include_directories(${ZLIB_INCLUDE_DIRS})
+include_directories(${ZLIB_INCLUDE_DIR})
 
 target_link_libraries(minizip ${ZLIB_LIBRARIES})
 set_target_properties(minizip PROPERTIES SOVERSION ${VERSION_STRING})
@@ -85,7 +85,7 @@ if(BUILD_DEMOS)
   add_definitions(-DHAVE_AES)
   add_subdirectory(aes)
   add_executable(miniunz miniunz.c)
-  target_link_libraries(miniunz minizip ${ZLIB_LIBRARIES} aes)
+  target_link_libraries(miniunz minizip ${ZLIB_LIBRARY} aes)
 
   install(TARGETS miniunz 
     RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
@@ -93,7 +93,7 @@ if(BUILD_DEMOS)
     LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
 
   add_executable(minizipz minizip.c)
-  target_link_libraries(minizipz minizip ${ZLIB_LIBRARIES} aes)
+  target_link_libraries(minizipz minizip ${ZLIB_LIBRARY} aes)
 
   install(TARGETS minizipz
     RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
