@@ -36,7 +36,7 @@ check_include_file("string.h" HAVE_STRING_H)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 include(ExternalProject)
-set(ep_base "/home/rashad/sources/cmake-build/third-party")
+set(ep_base "/tmp/cmake-build/third-party")
 set_property(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
 
 set(EP_URL "https://github.com/rashadkm")
