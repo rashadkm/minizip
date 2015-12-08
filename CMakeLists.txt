@@ -73,10 +73,6 @@ if(WIN32)
   list(APPEND MINIZIP_INCS iowin32.h)
 endif()
 
-#zlib-devel
-#gdk-pixbuf2-devel
-#openssl-devel    
-
 add_library(minizip ${MINIZIP_SRCS})
 add_dependencies(minizip ZLIB)
 

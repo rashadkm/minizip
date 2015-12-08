@@ -36,7 +36,7 @@ function(external_project name)
       WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/third-party/Build/${PKG_NAME} )
     
     #TODO: update lib_z repo
-    include(${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Targets.cmake)
+    include(${ep_base}/Build/${PKG_NAME}/${PKG_NAME_}Targets.cmake)
     
     get_target_property(${PKG_NAME}_LIBRARIES_ ${PKG_NAME_} IMPORTED_LOCATION_NOCONFIG)
     
