@@ -10,8 +10,12 @@ function(external_project name)
     set(PKG_REPO ${PKG_NAME_})
   endif ()
   
-  find_package(${PKG_NAME})
-  
+  if(EXISTS ${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)    
+    find_package(${PKG_NAME} PATHS ${ep_base}/Build/${PKG_NAME})
+  else()
+    find_package(${PKG_NAME} )
+  endif()
+
   if(NOT ${PKG_NAME}_FOUND)    
     ExternalProject_Add(${PKG_NAME}
       GIT_REPOSITORY ${EP_URL}/${PKG_REPO}
