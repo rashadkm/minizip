@@ -68,7 +68,7 @@ set(LIB_NAME minizip)
 
 add_library(minizip ${MINIZIP_SRCS})
 if(EXISTS ZLIB)
-add_dependencies(minizip ZLIB)
+  add_dependencies(minizip ZLIB)
 endif()
 include_directories(${ZLIB_INCLUDE_DIR})
 
@@ -136,9 +136,9 @@ endif()
 set(LIB_NAME minizip)
 
 if(CMAKE_BUILD_TYPE STREQUAL "")
-set(CONFIG_TYPE "NOCONFIG")
+  set(CONFIG_TYPE "NOCONFIG")
 else()
-  set(CONFIG_TYPE "${CMAKE_BUILD_TYPE}")
+  string(TOUPPER ${CMAKE_BUILD_TYPE} CONFIG_TYPE)
 endif()
 
 export(TARGETS minizip
