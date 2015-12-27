@@ -135,11 +135,11 @@ endif()
 
 set(LIB_NAME minizip)
 
-if(CMAKE_BUILD_TYPE STREQUAL "")
-  set(CONFIG_TYPE "NOCONFIG")
-else()
+set(CONFIG_TYPE "NOCONFIG")
+if(NOT "${CMAKE_BUILD_TYPE}" STREQUAL "")
   string(TOUPPER ${CMAKE_BUILD_TYPE} CONFIG_TYPE)
 endif()
+
 
 export(TARGETS minizip
   FILE "${CMAKE_BINARY_DIR}/MiniZipTargets.cmake")
