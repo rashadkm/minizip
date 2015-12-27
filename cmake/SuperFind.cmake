@@ -47,15 +47,9 @@ function(super_find_package name)
         WORKING_DIRECTORY ${ep_base}/Stamp/${PKG_NAME} )  
     endif()
 
-    if(MSVC)
-      execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
-	"-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR} -GNMake\\ Makefiles -DCMAKE_VERBOSE_MAKEFILE=ON"
-	WORKING_DIRECTORY ${ep_base}/Build/${PKG_NAME} )
-    else()
-      execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
-	"-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR}"
-	WORKING_DIRECTORY ${ep_base}/Build/${PKG_NAME} )
-    endif()
+    execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
+      "-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR}"
+      WORKING_DIRECTORY ${ep_base}/Build/${PKG_NAME} )
     
     include(${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)
     
