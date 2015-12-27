@@ -23,7 +23,6 @@ function(super_find_package name)
       UPDATE_COMMAND ""        
       INSTALL_COMMAND
       )
-    
     set(${PKG_NAME}_INSTALL_DIR ${ep_base}/Install/${PKG_NAME})
     
     if(NOT EXISTS "${ep_base}/Stamp/${PKG_NAME}/${PKG_NAME}-download")
@@ -43,4 +42,3 @@ function(super_find_package name)
   endif()
 
 endfunction()
-

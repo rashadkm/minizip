@@ -76,8 +76,9 @@ endif()
 set(LIB_NAME minizip)
 
 add_library(minizip ${MINIZIP_SRCS})
+if(EXISTS ZLIB)
 add_dependencies(minizip ZLIB)
-
+endif()
 include_directories(${ZLIB_INCLUDE_DIR})
 
 target_link_libraries(minizip ${ZLIB_LIBRARIES})
