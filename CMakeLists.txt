@@ -65,6 +65,11 @@ if(WIN32)
   list(APPEND MINIZIP_INCS iowin32.h)
 endif()
 
+if(MSVC)
+  set(CMAKE_BUILD_TYPE "Release")
+  add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+  add_definitions(-D_CRT_NONSTDC_NO_DEPRECATE)
+endif()
 set(LIB_NAME minizip)
 
 add_library(minizip ${MINIZIP_SRCS})
