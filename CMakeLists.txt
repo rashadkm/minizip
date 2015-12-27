@@ -140,7 +140,6 @@ if(NOT "${CMAKE_BUILD_TYPE}" STREQUAL "")
   string(TOUPPER ${CMAKE_BUILD_TYPE} CONFIG_TYPE)
 endif()
 
-
 export(TARGETS minizip
   FILE "${CMAKE_BINARY_DIR}/MiniZipTargets.cmake")
 
@@ -151,11 +150,12 @@ file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
 # ... for the build tree
 #set(CONF_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/include")
 set(CONF_INCLUDE_DIRS "${CMAKE_INSTALL_PREFIX}/include")
+
 configure_file(cmake/MiniZipConfig.cmake.in
-  "${PROJECT_BINARY_DIR}/MiniZipConfig.cmake" @ONLY)
+  "${CMAKE_BINARY_DIR}/MiniZipConfig.cmake" @ONLY)
 
 # ... for the install tree
-set(CONF_INCLUDE_DIRS "\${MINIZIP_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+set(CONF_INCLUDE_DIRS "\${INSTALL_CMAKE_DIR}/${REL_INCLUDE_DIR}")
 configure_file(cmake/MiniZipConfig.cmake.in
   "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/MiniZipConfig.cmake" @ONLY)
 # ... for both
