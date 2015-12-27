@@ -47,9 +47,9 @@ function(super_find_package name)
         WORKING_DIRECTORY ${ep_base}/Stamp/${PKG_NAME} )  
     endif()
 
-    if(WIN32)
+    if(MSVC)
       execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
-	"-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR} -G\"NMake\ Makefiles\""
+	"-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR} -GNMake\\ Makefiles"
 	WORKING_DIRECTORY ${ep_base}/Build/${PKG_NAME} )
     else()
       execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
