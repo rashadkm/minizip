@@ -41,6 +41,10 @@ super_find_package(ZLIB)
 #The above macro calls find_package(ZLIB) and if not found build it download and build it for you!
 #find_package(ZLIB)
 
+if(MSVC)
+    add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
+  endif()
+  
 if (HAVE_CTYPE_H AND HAVE_STDLIB_H)
   set(STDC_HEADERS 1)
 endif ()
