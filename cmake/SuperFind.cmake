@@ -49,7 +49,7 @@ function(super_find_package name)
 
     if(MSVC)
       execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
-	"-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR} -GNMake\\ Makefiles"
+	"-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR} -GNMake\\ Makefiles -DCMAKE_VERBOSE_MAKEFILE=ON"
 	WORKING_DIRECTORY ${ep_base}/Build/${PKG_NAME} )
     else()
       execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
