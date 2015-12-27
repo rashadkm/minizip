@@ -31,7 +31,6 @@ check_include_file("inttypes.h" HAVE_INTTYPES_H)
 check_include_file("strings.h" HAVE_STRINGS_H)
 check_include_file("string.h" HAVE_STRING_H)
 
-
 # set path to additional CMake modules
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
@@ -49,9 +48,8 @@ super_find_package(ZLIB)
 #The above macro calls find_package(ZLIB) and if not found build it download and build it for you!
 #find_package(ZLIB)
 
-
 if (HAVE_CTYPE_H AND HAVE_STDLIB_H)
-    set(STDC_HEADERS 1)
+  set(STDC_HEADERS 1)
 endif ()
 
 set(MINIZIP_SRCS
@@ -163,7 +161,7 @@ configure_file(cmake/MiniZipConfig.cmake.in
   "${PROJECT_BINARY_DIR}/MiniZipConfig.cmake" @ONLY)
 
 # ... for the install tree
-set(CONF_INCLUDE_DIRS "\${ZLIB_CMAKE_DIR}/${REL_INCLUDE_DIR}")
+set(CONF_INCLUDE_DIRS "\${MINIZIP_CMAKE_DIR}/${REL_INCLUDE_DIR}")
 configure_file(cmake/MiniZipConfig.cmake.in
   "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/MiniZipConfig.cmake" @ONLY)
 # ... for both
