@@ -34,13 +34,6 @@ check_include_file("string.h" HAVE_STRING_H)
 # set path to additional CMake modules
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
-include(ExternalProject)
-set(ep_base "/tmp/cmake-build/third-party")
-set_property(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
-
-set(EP_URL "https://github.com/rashadkm")
-find_package(Git)
-
 include(SuperFind)
 
 super_find_package(ZLIB)
