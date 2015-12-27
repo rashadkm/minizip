@@ -141,6 +141,7 @@ if(BUILD_TESTS)
   enable_testing()
 endif()
 
+set(LIB_NAME minizip)
 
 export(TARGETS minizip
   FILE "${CMAKE_BINARY_DIR}/MiniZipTargets.cmake")
