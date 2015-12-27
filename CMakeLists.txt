@@ -96,10 +96,10 @@ if(BUILD_DEMOS)
 
 endif()
 
-configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/minizip.pc.cmakein
-  ${CMAKE_CURRENT_BINARY_DIR}/minizip.pc @ONLY)
+configure_file( ${CMAKE_SOURCE_DIR}/cmake/minizip.pc.cmakein
+  ${CMAKE_BINARY_DIR}/minizip.pc @ONLY)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/minizip.pc
+install(FILES ${CMAKE_BINARY_DIR}/minizip.pc
   DESTINATION
   "${INSTALL_PKGCONFIG_DIR}")
 
