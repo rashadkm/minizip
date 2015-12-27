@@ -31,7 +31,6 @@ check_include_file("inttypes.h" HAVE_INTTYPES_H)
 check_include_file("strings.h" HAVE_STRINGS_H)
 check_include_file("string.h" HAVE_STRING_H)
 
-message(WARNING "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 # set path to additional CMake modules
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
