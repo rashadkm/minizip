@@ -31,6 +31,7 @@ check_include_file("inttypes.h" HAVE_INTTYPES_H)
 check_include_file("strings.h" HAVE_STRINGS_H)
 check_include_file("string.h" HAVE_STRING_H)
 
+message(WARNING "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}")
 # set path to additional CMake modules
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
@@ -96,6 +97,7 @@ if(BUILD_DEMOS)
 
 endif()
 
+if(NOT WIN32)
 configure_file( ${CMAKE_SOURCE_DIR}/cmake/minizip.pc.cmakein
   ${CMAKE_BINARY_DIR}/minizip.pc @ONLY)
 
@@ -103,6 +105,7 @@ install(FILES ${CMAKE_BINARY_DIR}/minizip.pc
   DESTINATION
   "${INSTALL_PKGCONFIG_DIR}")
 
+endif()
 set(MINIZIP_VERSION ${VERSION_STRING})
 
 if(WIN32 AND NOT CYGWIN)
@@ -110,6 +113,7 @@ if(WIN32 AND NOT CYGWIN)
 else()
   set(DEF_INSTALL_CMAKE_DIR lib/CMake/MiniZip)
 endif()
+
 set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
   "Installation directory for CMake files")
  
