@@ -9,7 +9,7 @@ set(INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/share/man" CACHE PATH "Installation
 set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" CACHE PATH "Installation directory for pkgconfig (.pc) files")
 
 set(VERSION_MAJOR "1")
-set(VERSION_MINOR "2")
+set(VERSION_MINOR "2")ur
 set(VERSION_PATCH "8")
 set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
@@ -116,7 +116,7 @@ set(MINIZIP_VERSION ${VERSION_STRING})
 if(WIN32 AND NOT CYGWIN)
   set(DEF_INSTALL_CMAKE_DIR CMake)
 else()
-  set(DEF_INSTALL_CMAKE_DIR lib/CMake/ZLIB)
+  set(DEF_INSTALL_CMAKE_DIR lib/CMake/MiniZip)
 endif()
 set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
   "Installation directory for CMake files")
