@@ -156,7 +156,8 @@ file(RELATIVE_PATH REL_INCLUDE_DIR "${INSTALL_CMAKE_DIR}"
   "${INSTALL_INC_DIR}")
 
 # ... for the build tree
-set(CONF_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/include")
+#set(CONF_INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/include")
+set(CONF_INCLUDE_DIRS "${CMAKE_INSTALL_PREFIX}/include")
 configure_file(cmake/MiniZipConfig.cmake.in
   "${PROJECT_BINARY_DIR}/MiniZipConfig.cmake" @ONLY)
 
