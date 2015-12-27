@@ -9,7 +9,7 @@ set(INSTALL_MAN_DIR "${CMAKE_INSTALL_PREFIX}/share/man" CACHE PATH "Installation
 set(INSTALL_PKGCONFIG_DIR "${CMAKE_INSTALL_PREFIX}/share/pkgconfig" CACHE PATH "Installation directory for pkgconfig (.pc) files")
 
 set(VERSION_MAJOR "1")
-set(VERSION_MINOR "2")ur
+set(VERSION_MINOR "2")
 set(VERSION_PATCH "8")
 set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
@@ -44,7 +44,7 @@ find_package(Git)
 
 include(SuperFind)
 
-external_project(ZLIB lib_z)
+super_find_package(ZLIB)
 
 #The above macro calls find_package(ZLIB) and if not found build it download and build it for you!
 #find_package(ZLIB)

@@ -1,4 +1,4 @@
-function(external_project name)
+function(super_find_package name)
   set(PKG_NAME ${name})
   set(PKG_REPO ${PKG_NAME})
   set (extra_args ${ARGN})
@@ -39,7 +39,7 @@ function(external_project name)
       WORKING_DIRECTORY ${ep_base}/Build/${PKG_NAME} )
     
     include(${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)
-
+    
   endif()
 
 endfunction()
