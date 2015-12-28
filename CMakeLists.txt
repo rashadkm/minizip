@@ -16,6 +16,7 @@ set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 option(BUILD_SHARED_LIBS  "Build shared libs." ON)
 option(BUILD_TESTS "Build demos." ON)
 option(BUILD_DEMOS  "Build demos." ON)
+option(WITH_AES  "Build AES" OFF)
 
 include (CheckIncludeFile)
 
@@ -61,8 +62,8 @@ endif()
 set(MINIZIP_INCS
   crypt.h 
   ioapi.h 
-  unzip.h 
-  zip.h)
+  zip.h
+  unzip.h)
 
 if(WIN32)
   list(APPEND MINIZIP_INCS iowin32.h)
@@ -75,29 +76,35 @@ if(TARGET ZLIB)
   add_dependencies(minizip ZLIB)
 endif()
 include_directories(${ZLIB_INCLUDE_DIR})
+message(WARNING "ZLIB_LIBRARIES=${ZLIB_LIBRARY}")
 
-target_link_libraries(minizip ${ZLIB_LIBRARIES})
-set_target_properties(minizip PROPERTIES SOVERSION ${VERSION_STRING})
-
-if(BUILD_DEMOS)
+if(WITH_AES)
   add_definitions(-DHAVE_AES)
   add_subdirectory(aes)
-  add_executable(miniunz miniunz.c)
-  target_link_libraries(miniunz minizip ${ZLIB_LIBRARY} aes)
+endif()
+  
+target_link_libraries(minizip ${ZLIB_LIBRARY})
+set_target_properties(minizip PROPERTIES SOVERSION ${VERSION_STRING})
+set_target_properties(${LIB_NAME} PROPERTIES DEFINE_SYMBOL MINIZIP_DLL)
 
-  install(TARGETS miniunz 
-    RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
-    ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
-    LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
+if(BUILD_DEMOS)
+  if(WITH_AES)
+    add_executable(miniunz miniunz.c)
+    target_link_libraries(miniunz minizip ${ZLIB_LIBRARY} aes)
 
-  add_executable(minizipz minizip.c)
-  target_link_libraries(minizipz minizip ${ZLIB_LIBRARY} aes)
+    install(TARGETS miniunz 
+      RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
+      ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
+      LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
 
-  install(TARGETS minizipz
-    RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
-    ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
-    LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
+    add_executable(minizipz minizip.c)
+    target_link_libraries(minizipz minizip ${ZLIB_LIBRARY} aes)
 
+    install(TARGETS minizipz
+      RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
+      ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
+      LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
+  endif()
 endif()
 
 if(NOT WIN32)
