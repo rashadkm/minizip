@@ -185,4 +185,4 @@ install(FILES
   DESTINATION "${INSTALL_CMAKE_DIR}" )
  
 # Install the export set for use with the install-tree
-install(EXPORT MiniZipTargets DESTINATION "${INSTALL_CMAKE_DIR}")
+install(EXPORT MiniZipTargets DESTINATION  ${DEF_INSTALL_CMAKE_DIR})
