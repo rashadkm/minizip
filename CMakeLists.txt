@@ -16,8 +16,11 @@ set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 option(BUILD_SHARED_LIBS  "Build shared libs." ON)
 option(BUILD_TESTS "Build demos." ON)
 option(BUILD_DEMOS  "Build demos." ON)
-option(WITH_AES  "Build AES" OFF)
+option(WITH_AES  "Build AES" FALSE)
 
+if(UNIX OR MINGW)
+  set(WITH_AES TRUE)
+endif()
 include (CheckIncludeFile)
 
 check_include_file("unistd.h" HAVE_UNISTD_H)
@@ -60,8 +63,9 @@ if(WIN32)
 endif()
 
 set(MINIZIP_INCS
+  minizipdef.h
   crypt.h 
-  ioapi.h 
+  ioapi.h
   zip.h
   unzip.h)
 
