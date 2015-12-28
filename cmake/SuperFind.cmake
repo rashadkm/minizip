@@ -3,7 +3,7 @@ include(ExternalProject)
 if(NOT WIN32)
   set(ep_base "/tmp/cmake-build/third-party")
 else()
-  set(ep_base "C://cmake-build//third-party")
+  set(ep_base "C:/cmake-build/third-party")
 endif()
 
 set_property(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
@@ -29,7 +29,7 @@ function(super_find_package name)
     find_package(${PKG_NAME} )
   endif()
 
-  if(NOT ${PKG_NAME}_FOUND)    
+  if(NOT ${PKG_NAME}_FOUND)
     ExternalProject_Add(${PKG_NAME}
       GIT_REPOSITORY ${EP_URL}/${PKG_REPO}
       DOWNLOAD_COMMAND ""
@@ -46,11 +46,13 @@ function(super_find_package name)
       execute_process(COMMAND ${CMAKE_COMMAND}  -E touch "${PKG_NAME}-download"
         WORKING_DIRECTORY ${ep_base}/Stamp/${PKG_NAME} )  
     endif()
-
-    execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
+      execute_process(COMMAND ${CMAKE_COMMAND} ${ep_base}/Source/${PKG_NAME}
       "-DCMAKE_INSTALL_PREFIX=${${PKG_NAME}_INSTALL_DIR}"
+      "-DBUILD_SHARED_LIBS=${BUILD_SHARED_LIBS}"
+      "-DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
+      "-G${CMAKE_GENERATOR}"
       WORKING_DIRECTORY ${ep_base}/Build/${PKG_NAME} )
-    
+
     include(${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)
     
   endif()
