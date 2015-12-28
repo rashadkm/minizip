@@ -182,7 +182,7 @@ configure_file(cmake/MiniZipConfigVersion.cmake.in
 install(FILES
   "${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/MiniZipConfig.cmake"
   "${CMAKE_BINARY_DIR}/MiniZipConfigVersion.cmake"
-  DESTINATION "${INSTALL_CMAKE_DIR}" )
+  DESTINATION ${DEF_INSTALL_CMAKE_DIR})
  
 # Install the export set for use with the install-tree
-install(EXPORT MiniZipTargets DESTINATION  ${DEF_INSTALL_CMAKE_DIR})
+install(EXPORT MiniZipTargets DESTINATION ${DEF_INSTALL_CMAKE_DIR})
