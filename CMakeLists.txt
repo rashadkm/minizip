@@ -76,7 +76,6 @@ if(TARGET ZLIB)
   add_dependencies(minizip ZLIB)
 endif()
 include_directories(${ZLIB_INCLUDE_DIR})
-message(WARNING "ZLIB_LIBRARIES=${ZLIB_LIBRARY}")
 
 if(WITH_AES)
   add_definitions(-DHAVE_AES)

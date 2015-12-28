@@ -1,16 +1,12 @@
 include(ExternalProject)
-
+find_package(Git)
 if(NOT WIN32)
   set(ep_base "/tmp/cmake-build/third-party")
 else()
   set(ep_base "C:/cmake-build/third-party")
 endif()
-
 set_property(DIRECTORY PROPERTY "EP_BASE" ${ep_base})
-
 set(EP_URL "https://github.com/rashadkm")
-
-find_package(Git)
 
 function(super_find_package name)
   set(PKG_NAME ${name})
@@ -30,6 +26,7 @@ function(super_find_package name)
   endif()
 
   if(NOT ${PKG_NAME}_FOUND)
+    message(STATUS "[SuperFind] Adding ExternalProject ${PKG_NAME}. update add_dependencies() if needed")
     ExternalProject_Add(${PKG_NAME}
       GIT_REPOSITORY ${EP_URL}/${PKG_REPO}
       DOWNLOAD_COMMAND ""
