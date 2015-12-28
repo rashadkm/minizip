@@ -18,10 +18,10 @@ function(super_find_package name)
   endif ()
 
   if(EXISTS ${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)
-    message(STATUS "[FIND_PACKAGE ${PKG_NAME} ] using config from ${ep_base}/Build/${PKG_NAME}")
+    message(STATUS "[SuperFind] ${PKG_NAME} using config from ${ep_base}/Build/${PKG_NAME}")
     find_package(${PKG_NAME} PATHS ${ep_base}/Build/${PKG_NAME})
   else()
-    message(STATUS "[FIND_PACKAGE ${PKG_NAME} ] no config")
+    message(STATUS "[SuperFind] ${PKG_NAME}: no config")
     find_package(${PKG_NAME} )
   endif()
 
