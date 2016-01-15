@@ -75,26 +75,34 @@ endif()
 
 set(LIB_NAME minizip)
 
-add_library(minizip ${MINIZIP_SRCS})
+add_library(${LIB_NAME} ${MINIZIP_SRCS})
 if(TARGET ZLIB)
-  add_dependencies(minizip ZLIB)
+  add_dependencies(${LIB_NAME} ZLIB)
 endif()
 include_directories(${ZLIB_INCLUDE_DIR})
 
-set(LINK_LIBRARIES ${ZLIB_LIBRARY})
 if(WITH_AES)
   add_definitions(-DHAVE_AES)
-  add_subdirectory(aes)
-  list(APPEND LINK_LIBRARIES aes)
+  list(APPEND MINIZIP_SRCS
+    aescrypt.c
+    aeskey.c
+    aestab.c
+    entropy.c
+    fileenc.c
+    hmac.c
+    prng.c
+    pwd2key.c
+    sha1.c)
+  include_directories(${CMAKE_SOURCE_DIR}/aes)
 endif()
 
-target_link_libraries(minizip ${LINK_LIBRARIES})
-set_target_properties(minizip PROPERTIES SOVERSION ${VERSION_STRING})
+target_link_libraries(${LIB_NAME} ${ZLIB_LIBRARY})
+set_target_properties(${LIB_NAME} PROPERTIES SOVERSION ${VERSION_STRING})
 set_target_properties(${LIB_NAME} PROPERTIES DEFINE_SYMBOL MINIZIP_DLL)
 
 if(BUILD_DEMOS)
   add_executable(miniunz miniunz.c)
-  target_link_libraries(miniunz minizip ${LINK_LIBRARIES})
+  target_link_libraries(miniunz ${LIB_NAME} ${ZLIB_LIBRARY})
   
   install(TARGETS miniunz 
     RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
@@ -102,7 +110,7 @@ if(BUILD_DEMOS)
     LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
   
   add_executable(minizipz minizip.c)
-  target_link_libraries(minizipz minizip ${LINK_LIBRARIES})
+  target_link_libraries(minizipz ${LIB_NAME} ${ZLIB_LIBRARY})
   
   install(TARGETS minizipz
     RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
@@ -138,7 +146,7 @@ foreach(p LIB BIN INCLUDE CMAKE)
   endif()
 endforeach()
 
-install(TARGETS minizip
+install(TARGETS ${LIB_NAME}
   EXPORT MiniZipTargets
   RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
   ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
@@ -150,14 +158,12 @@ if(BUILD_TESTS)
   enable_testing()
 endif()
 
-set(LIB_NAME minizip)
-
 set(CONFIG_TYPE "NOCONFIG")
 if(NOT "${CMAKE_BUILD_TYPE}" STREQUAL "")
   string(TOUPPER ${CMAKE_BUILD_TYPE} CONFIG_TYPE)
 endif()
 
-export(TARGETS minizip
+export(TARGETS ${LIB_NAME}
   FILE "${CMAKE_BINARY_DIR}/MiniZipTargets.cmake")
 
 # Create the ZLIBConfig.cmake and ZLIBConfigVersion files
