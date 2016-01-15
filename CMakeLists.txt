@@ -123,7 +123,7 @@ endif()
 set(MINIZIP_VERSION ${VERSION_STRING})
 
 if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
+  set(DEF_INSTALL_CMAKE_DIR cmake)
 else()
   set(DEF_INSTALL_CMAKE_DIR lib/cmake/minizip)
 endif()
