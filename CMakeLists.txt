@@ -109,7 +109,6 @@ if(BUILD_DEMOS)
     ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
     LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
 endif()
-endif()
 
 if(NOT WIN32)
 configure_file( ${CMAKE_SOURCE_DIR}/cmake/minizip.pc.cmakein
@@ -123,7 +122,7 @@ endif()
 set(MINIZIP_VERSION ${VERSION_STRING})
 
 if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
+  set(DEF_INSTALL_CMAKE_DIR cmake)
 else()
   set(DEF_INSTALL_CMAKE_DIR lib/cmake/minizip)
 endif()
