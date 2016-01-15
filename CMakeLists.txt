@@ -16,10 +16,10 @@ set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 option(BUILD_SHARED_LIBS  "Build shared libs." ON)
 option(BUILD_TESTS "Build demos." ON)
 option(BUILD_DEMOS  "Build demos." ON)
-option(WITH_AES  "Build AES" FALSE)
+option(WITH_AES  "Build AES" OFF)
 
 if(UNIX OR MINGW)
-  set(WITH_AES TRUE)
+  set(WITH_AES ON)
 endif()
 include (CheckIncludeFile)
 
@@ -81,33 +81,33 @@ if(TARGET ZLIB)
 endif()
 include_directories(${ZLIB_INCLUDE_DIR})
 
+set(LINK_LIBRARIES ${ZLIB_LIBRARY})
 if(WITH_AES)
   add_definitions(-DHAVE_AES)
   add_subdirectory(aes)
+  list(APPEND LINK_LIBRARIES aes)
 endif()
-  
-target_link_libraries(minizip ${ZLIB_LIBRARY})
+
+target_link_libraries(minizip ${LINK_LIBRARIES})
 set_target_properties(minizip PROPERTIES SOVERSION ${VERSION_STRING})
 set_target_properties(${LIB_NAME} PROPERTIES DEFINE_SYMBOL MINIZIP_DLL)
 
 if(BUILD_DEMOS)
-  if(WITH_AES)
-    add_executable(miniunz miniunz.c)
-    target_link_libraries(miniunz minizip ${ZLIB_LIBRARY} aes)
-
-    install(TARGETS miniunz 
-      RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
-      ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
-      LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
-
-    add_executable(minizipz minizip.c)
-    target_link_libraries(minizipz minizip ${ZLIB_LIBRARY} aes)
-
-    install(TARGETS minizipz
-      RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
-      ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
-      LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
-  endif()
+  add_executable(miniunz miniunz.c)
+  target_link_libraries(miniunz minizip ${LINK_LIBRARIES})
+  
+  install(TARGETS miniunz 
+    RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
+    ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
+    LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
+  
+  add_executable(minizipz minizip.c)
+  target_link_libraries(minizipz minizip ${LINK_LIBRARIES})
+  
+  install(TARGETS minizipz
+    RUNTIME DESTINATION "${INSTALL_BIN_DIR}"
+    ARCHIVE DESTINATION "${INSTALL_LIB_DIR}"
+    LIBRARY DESTINATION "${INSTALL_LIB_DIR}" )
 endif()
 
 if(NOT WIN32)
@@ -122,9 +122,9 @@ endif()
 set(MINIZIP_VERSION ${VERSION_STRING})
 
 if(WIN32 AND NOT CYGWIN)
-  set(DEF_INSTALL_CMAKE_DIR CMake)
+  set(DEF_INSTALL_CMAKE_DIR cmake)
 else()
-  set(DEF_INSTALL_CMAKE_DIR lib/CMake/MiniZip)
+  set(DEF_INSTALL_CMAKE_DIR lib/cmake/minizip)
 endif()
 
 set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
