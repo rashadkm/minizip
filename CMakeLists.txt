@@ -13,10 +13,6 @@ set(VERSION_MINOR "2")
 set(VERSION_PATCH "8")
 set(VERSION_STRING "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
 
-if("${CMAKE_BUILD_TYPE}" STREQUAL "")
-  set(CMAKE_BUILD_TYPE Release)
-endif()
-  
 option(BUILD_SHARED_LIBS  "Build shared libs." ON)
 option(BUILD_TESTS "Build demos." ON)
 option(BUILD_DEMOS  "Build demos." ON)
