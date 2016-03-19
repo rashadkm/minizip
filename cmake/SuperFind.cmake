@@ -65,8 +65,8 @@ endfunction()
 
 
 
-macro(add_dependencies_if_needed prefix tgt)  
+macro(add_dependencies_if_needed lib tgt)  
   if(TARGET ${tgt})
-    list(APPEND ${prefix}_DEPENDS ${tgt})
+    add_dependencies(${lib} ${tgt})
   endif()
 endmacro()
