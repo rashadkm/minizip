@@ -17,16 +17,23 @@ function(super_find_package name)
     list(GET extra_args 0 PKG_REPO)
   endif ()
 
-  if(EXISTS ${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)
-    message(STATUS "[SuperFind] ${PKG_NAME} using config from ${ep_base}/Build/${PKG_NAME}")
-    find_package(${PKG_NAME} PATHS ${ep_base}/Build/${PKG_NAME})
-  else()
-    message(STATUS "[SuperFind] ${PKG_NAME}: no config")
-    find_package(${PKG_NAME} )
-  endif()
 
+  find_package(${PKG_NAME} QUIET)
+  if(${PKG_NAME_}_FOUND)
+    message(STATUS "[SuperFind] ${PKG_NAME} found from system")
+  else() 
+    if(EXISTS ${ep_base}/Build/${PKG_NAME}/${PKG_NAME}Config.cmake)
+      message(STATUS "[SuperFind] ${PKG_NAME} using config from ${ep_base}/Build/${PKG_NAME}")
+      find_package(${PKG_NAME} PATHS ${ep_base}/Build/${PKG_NAME})
+      if(${PKG_NAME_}_FOUND)
+	add_custom_target(${PKG_NAME}
+          COMMAND ${CMAKE_COMMAND} "--build" "${ep_base}/Build/${PKG_NAME}" 
+	  WORKING_DIRECTORY "${ep_base}/Build/${PKG_NAME}")
+      endif()
+    endif()
+  endif()
   if(NOT ${PKG_NAME}_FOUND)
-    message(STATUS "[SuperFind] Adding ExternalProject ${PKG_NAME}. update add_dependencies() if needed")
+    message(STATUS "[SuperFind] Adding ExternalProject ${PKG_NAME}.")
     ExternalProject_Add(${PKG_NAME}
       GIT_REPOSITORY ${EP_URL}/${PKG_REPO}
       DOWNLOAD_COMMAND ""
@@ -55,3 +62,11 @@ function(super_find_package name)
   endif()
 
 endfunction()
+
+
+
+macro(add_dependencies_if_needed prefix tgt)  
+  if(TARGET ${tgt})
+    list(APPEND ${prefix}_DEPENDS ${tgt})
+  endif()
+endmacro()

@@ -40,11 +40,6 @@ set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 include(SuperFind)
 
-super_find_package(ZLIB)
-
-#The above macro calls find_package(ZLIB) and if not found build it download and build it for you!
-#find_package(ZLIB)
-
 if(MSVC)
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
   endif()
@@ -88,15 +83,16 @@ if(WITH_AES)
   include_directories(${CMAKE_SOURCE_DIR}/aes)
 endif()
 
-include_directories(${ZLIB_INCLUDE_DIR})
-
 set(LIB_NAME minizip)
 
 add_library(${LIB_NAME} ${MINIZIP_SRCS})
 
-if(TARGET ZLIB)
-  add_dependencies(${LIB_NAME} ZLIB)
-endif()
+super_find_package(ZLIB)
+#The above macro calls find_package(ZLIB) and if not found build it download and build it for you!
+#find_package(ZLIB)
+
+include_directories(${ZLIB_INCLUDE_DIR})
+add_dependencies_if_needed(${LIB_NAME} ZLIB)
 
 target_link_libraries(${LIB_NAME} ${ZLIB_LIBRARY})
 set_target_properties(${LIB_NAME} PROPERTIES SOVERSION ${VERSION_STRING})
